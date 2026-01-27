@@ -58,7 +58,7 @@ st.sidebar.info("Developed for Concrete Mix Optimization Project using ML.")
 
 # --- PAGE 1: STRENGTH PREDICTOR ---
 if page == "Strength Predictor":
-    st.title("🧪 Concrete Strength Predictor")
+    st.title("Concrete Strength Predictor")
     st.markdown("Adjust the ingredient values below to predict the Compressive Strength (MPa).")
 
     # Input Columns
@@ -125,7 +125,7 @@ if page == "Strength Predictor":
 
 # --- PAGE 2: MIX OPTIMIZER ---
 elif page == "Mix Optimizer":
-    st.title("🚀 AI Mix Optimizer")
+    st.title("AI Mix Optimizer")
     st.markdown("""
     **Goal:** Find the cheapest mix (lowest cement) that meets your Target Strength.
     *This module runs 5,000 simulations to find the optimal ratio.*
@@ -202,4 +202,5 @@ elif page == "Project Info":
     **Data Source:**
     - Comprehensive dataset comprising 1030 concrete samples with 8 input features.
     """)
+
     
