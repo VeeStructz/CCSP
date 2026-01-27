@@ -3,6 +3,7 @@ pandas
 numpy
 scikit-learn
 matplotlib
+seaborn
 xgboost
 lightgbm
 catboost
@@ -10,3 +11,4 @@ optuna
 joblib
 openpyxl
 xlsxwriter
+
