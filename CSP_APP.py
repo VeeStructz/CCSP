@@ -58,7 +58,7 @@ st.sidebar.info("Developed for Concrete Mix Optimization Project using ML.")
 
 # --- PAGE 1: STRENGTH PREDICTOR ---
 if page == "Strength Predictor":
-    st.title("Concrete Strength Predictor")
+    st.title("Concrete Compressive Strength Predictor")
     st.markdown("Adjust the ingredient values below to predict the Compressive Strength (MPa).")
 
     # Input Columns
@@ -204,3 +204,4 @@ elif page == "Project Info":
     """)
 
     
+
