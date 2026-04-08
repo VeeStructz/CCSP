@@ -182,15 +182,26 @@ elif page == "Mix Optimizer":
                 wc_arr     = rng.uniform(WC_MIN, WC_MAX, n_simulations)
                 water_arr  = cement_arr * wc_arr
 
+                # 1. Generate binders first
+                slag_arr   = clipped_normal(rng, SLAG_MEAN,   SLAG_STD,
+                                            SLAG_MIN,   SLAG_MAX,   n_simulations)
+                flyash_arr = clipped_normal(rng, FLYASH_MEAN, FLYASH_STD,
+                                            FLYASH_MIN, FLYASH_MAX, n_simulations)
+                
+                # 2. Calculate Total Binder to enforce the Superplasticizer rule
+                total_binder = cement_arr + slag_arr + flyash_arr
+                
+                # 3. Generate SP, but cap it at 3% of the total binder weight
+                sp_raw = clipped_normal(rng, SP_MEAN, SP_STD, SP_MIN, SP_MAX, n_simulations)
+                sp_capped = np.minimum(sp_raw, total_binder * 0.03)
+
+                # 4. Build the simulation dataframe
                 sim_data = pd.DataFrame({
                     'cement':           cement_arr,
-                    'slag':             clipped_normal(rng, SLAG_MEAN,   SLAG_STD,
-                                                       SLAG_MIN,   SLAG_MAX,   n_simulations),
-                    'flyash':           clipped_normal(rng, FLYASH_MEAN, FLYASH_STD,
-                                                       FLYASH_MIN, FLYASH_MAX, n_simulations),
+                    'slag':             slag_arr,
+                    'flyash':           flyash_arr,
                     'water':            water_arr,
-                    'superplasticizer': clipped_normal(rng, SP_MEAN, SP_STD,
-                                                       SP_MIN, SP_MAX, n_simulations),
+                    'superplasticizer': sp_capped,
                     'coarseaggregate':  clipped_normal(rng, COARSE_MEAN, COARSE_STD,
                                                        COARSE_MIN, COARSE_MAX, n_simulations),
                     'fineaggregate':    clipped_normal(rng, FINE_MEAN, FINE_STD,
