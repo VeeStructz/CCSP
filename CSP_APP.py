@@ -51,6 +51,13 @@ FINE_MIN,    FINE_MAX,    FINE_MEAN,    FINE_STD    = 594.0,  992.6, 773.58,  80
 # ratio for structural concrete as specified for this study.
 WC_MIN, WC_MAX = 0.30, 0.45
 
+# Derived cement minimum for the optimizer: ensures that even at the maximum
+# permitted w/c ratio (0.45), the resulting water content cannot fall below
+# the dataset minimum (121.8 kg). i.e. cement_min = WATER_MIN / WC_MAX = 271 kg.
+# Sampling cement below this threshold would force the np.clip on water to
+# override the w/c constraint, producing physically inconsistent mixes.
+CEMENT_OPT_MIN = int(np.ceil(WATER_MIN / WC_MAX))  # 271 kg
+
 
 # ── Load Models & Scaler ───────────────────────────────────────────────────────
 @st.cache_resource
@@ -167,10 +174,13 @@ elif page == "Mix Optimizer":
                 # from cement by sampling the w/c ratio uniformly within [0.30, 0.45],
                 # ensuring all generated mixes satisfy the structural concrete
                 # water-to-cement ratio requirement specified for this study.
+                # Cement is sampled from CEMENT_OPT_MIN (271 kg) upward so that
+                # water = cement x w/c always stays above the dataset water minimum
+                # (121.8 kg) without the clip overriding the w/c constraint.
                 cement_arr = clipped_normal(rng, CEMENT_MEAN, CEMENT_STD,
-                                            CEMENT_MIN, CEMENT_MAX, n_simulations)
+                                            CEMENT_OPT_MIN, CEMENT_MAX, n_simulations)
                 wc_arr     = rng.uniform(WC_MIN, WC_MAX, n_simulations)
-                water_arr  = np.clip(cement_arr * wc_arr, WATER_MIN, WATER_MAX)
+                water_arr  = cement_arr * wc_arr
 
                 sim_data = pd.DataFrame({
                     'cement':           cement_arr,
