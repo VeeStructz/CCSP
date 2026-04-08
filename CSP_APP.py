@@ -90,7 +90,7 @@ def clipped_normal(rng, mean, std, low, high, size):
 
 # ── PAGE 1: STRENGTH PREDICTOR ─────────────────────────────────────────────────
 if page == "Strength Predictor":
-    st.title("🧪 Concrete Compressive Strength Predictor")
+    st.title("Concrete Compressive Strength Predictor")
     st.markdown("Adjust the ingredient values below to predict the Compressive Strength (MPa).")
 
     col1, col2, col3 = st.columns(3)
@@ -152,7 +152,7 @@ if page == "Strength Predictor":
 
 # ── PAGE 2: MIX OPTIMIZER ──────────────────────────────────────────────────────
 elif page == "Mix Optimizer":
-    st.title("🚀 AI Mix Optimizer")
+    st.title("AI Mix Optimizer")
     st.markdown("""
     **Goal:** Find the cheapest mix (lowest cement) that meets your Target Strength.
     *This module runs 5,000 simulations to find the optimal ratio.*
@@ -234,7 +234,7 @@ elif page == "Mix Optimizer":
                     )
 
                     # Display recipe
-                    st.subheader("🏆 Optimal Mix Recipe (per m³)")
+                    st.subheader("Optimal Mix Recipe (per m³)")
                     col1, col2, col3, col4 = st.columns(4)
                     col1.metric("Cement",     f"{optimal_mix['cement']:.1f} kg")
                     col2.metric("Water",      f"{optimal_mix['water']:.1f} kg")
